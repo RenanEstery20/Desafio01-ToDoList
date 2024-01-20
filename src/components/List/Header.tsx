@@ -1,16 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styles from './Header.module.css';
+interface Props {
+  tasksCounter: number;
+  checkedTasksCounter?: number;
+}
 
-export function Header() {
+export function Header({ tasksCounter, checkedTasksCounter }: Props) {
   return (
     <header className={styles.container}>
       <aside>
         <p>Tarefas criadas</p>
-        <span></span>
+        <span>{tasksCounter}</span>
       </aside>
 
       <aside>
         <p>Concluídas</p>
-        <span></span>
+        <span>{checkedTasksCounter}</span>
       </aside>
     </header>
   );

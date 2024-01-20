@@ -1,20 +1,44 @@
-import { Trash } from '@phosphor-icons/react';
-
+import { Check, Trash } from '@phosphor-icons/react';
+import { ITask } from '../../App';
 import styles from './Item.module.css';
 
-export function Item() {
+interface Props {
+  data: ITask;
+  removeTask: (id: number) => void;
+  toggleTaskStatus: ({ id, value }: { id: number; value: boolean }) => void;
+}
+
+export function Item({ data, removeTask, toggleTaskStatus }: Props) {
+  function handleTaskToggle() {
+    toggleTaskStatus({ id: data.id, value: !data.isChecked });
+  }
+
+  const checkboxCheckedClassname = data.isChecked
+    ? styles['checkbox-checked']
+    : styles['checkbox-unchecked'];
+  const paragraphCheckedClassname = data.isChecked
+    ? styles['paragraph-checked']
+    : '';
+
+  function handleRemove() {
+    removeTask(data.id);
+  }
+
   return (
     <div className={styles.container}>
       <div>
-        <label>
-          <input />
-          <span></span>
-
-          <p></p>
+        <label htmlFor="checkbox" onClick={handleTaskToggle}>
+          <input readOnly type="checkbox" checked={data.isChecked} />
+          <span className={`${styles.checkbox} ${checkboxCheckedClassname}`}>
+            {data.isChecked && <Check size={12} />}
+          </span>
+          <p className={`${styles.paragraph} ${paragraphCheckedClassname}`}>
+            {data.text}
+          </p>
         </label>
       </div>
 
-      <button>
+      <button onClick={handleRemove}>
         <Trash size={16} color="#808080" />
       </button>
     </div>
